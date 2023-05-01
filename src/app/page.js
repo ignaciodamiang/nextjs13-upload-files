@@ -6,10 +6,20 @@ function HomePage() {
   return (
     <div>
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
           if (!file) return;
-          console.log('Uploading file...');
+
+          const form = new FormData();
+          form.set('file', file);
+
+          // sending file to server
+          const res = await fetch('/api/upload', {
+            method: 'POST',
+            body: form,
+          });
+          const data = await res.json();
+          console.log(data);
         }}
       >
         <label>Upload file:</label>
